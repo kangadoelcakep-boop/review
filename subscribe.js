@@ -12,10 +12,8 @@ document.addEventListener("DOMContentLoaded", () => {
   }
 
   forms.forEach(form => {
-    // ambil ID unik dari form (misalnya: subscribe-form-desktop / subscribe-form-mobile)
-    const suffix = form.id.replace("subscribe-form-", "");
     const emailField = form.querySelector("input[type='email']");
-    const msg = document.getElementById(`subMessage-${suffix}`);
+    const msg = form.parentElement.querySelector("p[id^='subMessage']");
 
     form.addEventListener("submit", (e) => {
       e.preventDefault();
@@ -29,11 +27,12 @@ document.addEventListener("DOMContentLoaded", () => {
         return;
       }
 
-      console.log(`📨 Form [${form.id}] submit dengan email:`, email);
+      console.log("📨 Form submit terpanggil dengan email:", email);
 
+      // Kirim ke Apps Script
       fetch(API_URL, {
         method: "POST",
-        mode: "no-cors",  // bypass CORS
+        mode: "no-cors", // penting untuk bypass CORS
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({ type: "subscribe", email })
       });
