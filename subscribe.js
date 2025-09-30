@@ -2,8 +2,9 @@ const API_URL = "https://script.google.com/macros/s/AKfycbwjJQ69NNajRuYS2_w2mZlK
 
 console.log("✅ subscribe.js loaded");
 
-document.addEventListener("DOMContentLoaded", () => {
-  console.log("✅ DOM loaded, mencari form subscribe...");
+// Jalan langsung, karena script dipanggil setelah DOM sudah siap
+(function () {
+  console.log("✅ Inisialisasi langsung, mencari form subscribe...");
 
   const forms = document.querySelectorAll("form[id^='subscribe-form']");
   if (!forms.length) {
@@ -29,10 +30,10 @@ document.addEventListener("DOMContentLoaded", () => {
 
       console.log("📨 Form submit terpanggil dengan email:", email);
 
-      // Kirim ke Apps Script
+      // Kirim data ke Google Apps Script
       fetch(API_URL, {
         method: "POST",
-        mode: "no-cors", // penting untuk bypass CORS
+        mode: "no-cors", // bypass CORS
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({ type: "subscribe", email })
       });
@@ -42,8 +43,11 @@ document.addEventListener("DOMContentLoaded", () => {
         msg.textContent = "✅ Subscribe berhasil! Email Anda masuk ke daftar.";
       }
 
+      // Simpan email di localStorage (opsional)
       localStorage.setItem("subscriberEmail", email);
+
+      // Reset form
       form.reset();
     });
   });
-});
+})();
