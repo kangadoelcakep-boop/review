@@ -1,4 +1,4 @@
-name: Build main.js
+name: Build main.js with cache busting
 
 on:
   push:
@@ -27,8 +27,11 @@ jobs:
 
       - name: Commit and push main.js
         run: |
+          VERSION=$(date +%Y%m%d%H%M%S)
+          mv main.js main.$VERSION.js
+          echo "✅ Build dengan versi: $VERSION"
           git config user.name "github-actions[bot]"
           git config user.email "github-actions[bot]@users.noreply.github.com"
-          git add main.js
-          git commit -m "chore: auto-build main.js"
+          git add main.*.js
+          git commit -m "chore: auto-build main.js ($VERSION)"
           git push
