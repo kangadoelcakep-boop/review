@@ -90,7 +90,7 @@ async function handleFormSubmit(form) {
 
     if (!data || !data.status) {
       // unexpected, fallback to no-cors result UX
-      showMsg(msgElem, "green", "✅ Subscribe terkirim. Cek inbox untuk verifikasi.");
+      showMsg(msgElem, "green", "✅ Subscribe terkirim. Cek inbox email anda untuk verifikasi.");
       localStorage.setItem("subscriberEmail", email);
       form.reset();
       return;
@@ -150,3 +150,4 @@ if (document.readyState === "loading") {
   // DOM already ready
   initSubscribe();
 }
+
