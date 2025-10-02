@@ -1,4 +1,4 @@
-name: Build JS
+name: Build and Deploy JS
 
 on:
   push:
@@ -6,37 +6,29 @@ on:
       - main
 
 jobs:
-  build:
+  build-deploy:
     runs-on: ubuntu-latest
 
     steps:
-      # Checkout repo
       - name: Checkout repository
         uses: actions/checkout@v3
 
-      # Setup Node.js
-      - name: Setup Node.js
+      - name: Set up Node.js
         uses: actions/setup-node@v3
         with:
           node-version: 18
 
-      # Build file dist/
-      - name: Build JS bundle
+      - name: Build JS with timestamp
         run: |
           mkdir -p dist
-          TS=$(date +%s)
-          OUT="main.$TS.js"
+          ts=$(date +%s)
+          cp src/main.js dist/main.$ts.js
+          echo "main.$ts.js" > dist/latest.txt
 
-          # gabungkan subscribe.js + review.js
-          cat subscribe.js review.js > dist/$OUT
-
-          # simpan nama file terakhir
-          echo $OUT > dist/latest.txt
-
-      # Deploy ke GitHub Pages
       - name: Deploy to GitHub Pages
         uses: peaceiris/actions-gh-pages@v3
         with:
           github_token: ${{ secrets.GITHUB_TOKEN }}
           publish_dir: ./dist
           publish_branch: gh-pages
+          force_orphan: true
