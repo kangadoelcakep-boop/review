@@ -8,26 +8,20 @@ on:
 jobs:
   build:
     runs-on: ubuntu-latest
+
     steps:
-      - name: Checkout repository
+      - name: Checkout
         uses: actions/checkout@v3
 
       - name: Setup Node.js
         uses: actions/setup-node@v3
         with:
-          node-version: 18
+          node-version: '18'
 
-      - name: Install dependencies
-        run: npm install
-
-      - name: Build JS bundle
-        run: node build.js
-
-      - name: Copy loader.js
-        run: cp loader.js dist/loader.js
-
-      - name: Generate latest.txt
-        run: echo "main.$(date +%s).js" > dist/latest.txt
+      - name: Build dist
+        run: |
+          mkdir -p dist
+          node build.js
 
       - name: Deploy to GitHub Pages
         uses: peaceiris/actions-gh-pages@v3
@@ -35,3 +29,4 @@ jobs:
           github_token: ${{ secrets.GITHUB_TOKEN }}
           publish_branch: gh-pages
           publish_dir: ./dist
+          force_orphan: true
