@@ -1,5 +1,5 @@
-// GripAndReview build 1759372528811
-console.log("✅ GripAndReview build loaded: 1759372528811");
+// GripAndReview build 1759373269606
+console.log("✅ GripAndReview build loaded: 1759373269606");
 
 
 // ---- subscribe.js ----
@@ -95,7 +95,7 @@ async function handleFormSubmit(form) {
 
     if (!data || !data.status) {
       // unexpected, fallback to no-cors result UX
-      showMsg(msgElem, "green", "✅ Subscribe terkirim. Cek inbox untuk verifikasi.");
+      showMsg(msgElem, "green", "✅ Subscribe terkirim. Cek inbox email anda untuk verifikasi.");
       localStorage.setItem("subscriberEmail", email);
       form.reset();
       return;
@@ -155,6 +155,7 @@ if (document.readyState === "loading") {
   // DOM already ready
   initSubscribe();
 }
+
 
 
 // ---- review.js ----
