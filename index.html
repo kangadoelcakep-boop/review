@@ -20,6 +20,17 @@
     }
     .ok { color: green; }
     .err { color: red; }
+    button {
+      background: #2b6cb0;
+      color: #fff;
+      border: none;
+      padding: 10px 20px;
+      border-radius: 6px;
+      cursor: pointer;
+    }
+    button:hover {
+      background: #1e4d7a;
+    }
   </style>
 </head>
 <body>
@@ -38,20 +49,47 @@
   <h2>ℹ️ Status</h2>
   <div id="status">⏳ Mengecek versi...</div>
 
+  <h2>🧪 Test Loader</h2>
+  <button id="testLoaderBtn">Load Script Terbaru</button>
+  <div id="testResult"></div>
+
   <script>
-    const base = location.href;
+    let latestFile = null;
+
+    // cek latest.txt
     fetch("latest.txt", { cache: "no-cache" })
       .then(res => res.text())
       .then(file => {
-        const f = file.trim();
-        document.getElementById("status").innerHTML = "✅ Versi terbaru: <b>" + f + "</b>";
-        document.getElementById("latestLink").href = f;
-        document.getElementById("latestLink").textContent = f;
+        latestFile = file.trim();
+        document.getElementById("status").innerHTML = "✅ Versi terbaru: <b>" + latestFile + "</b>";
+        document.getElementById("latestLink").href = latestFile;
+        document.getElementById("latestLink").textContent = latestFile;
       })
       .catch(err => {
         document.getElementById("status").innerHTML =
           "<span class='err'>❌ Gagal load latest.txt</span><br>" + err;
       });
+
+    // test loader
+    document.getElementById("testLoaderBtn").addEventListener("click", () => {
+      if (!latestFile) {
+        document.getElementById("testResult").innerHTML =
+          "<span class='err'>❌ Belum ada file terbaru.</span>";
+        return;
+      }
+
+      const script = document.createElement("script");
+      script.src = latestFile + "?t=" + Date.now(); // bust cache
+      script.onload = () => {
+        document.getElementById("testResult").innerHTML =
+          "<span class='ok'>✅ Script berhasil dimuat: " + latestFile + "</span>";
+      };
+      script.onerror = () => {
+        document.getElementById("testResult").innerHTML =
+          "<span class='err'>❌ Gagal memuat script.</span>";
+      };
+      document.body.appendChild(script);
+    });
   </script>
 </body>
 </html>
