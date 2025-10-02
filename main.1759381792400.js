@@ -1,10 +1,10 @@
-// GripAndReview build 1759381753754
-console.log("✅ GripAndReview build loaded: 1759381753754");
+// GripAndReview build 1759381792400
+console.log("✅ GripAndReview build loaded: 1759381792400");
 
 
 // ---- subscribe.js ----
 // subscribe.js (robust, multi-form, fallback no-cors)
-const API_URL = "https://script.google.com/macros/s/AKfycbwjJQ69NNajRuYS2_w2mZlK7zY3CHs1pbY2vJvOisRtmMZSwEZJIPcn9u4djtUCe1HqPg/exec";
+
 
 // Optional: client-side allowed domains for better UX (server is authoritative)
 const ALLOWED_DOMAINS = [
@@ -155,6 +155,7 @@ if (document.readyState === "loading") {
   // DOM already ready
   initSubscribe();
 }
+
 
 
 
