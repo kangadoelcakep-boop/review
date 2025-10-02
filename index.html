@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+  <meta charset="UTF-8" />
+  <title>GripAndReview CDN</title>
+  <style>
+    body {
+      font-family: sans-serif;
+      max-width: 600px;
+      margin: 40px auto;
+      padding: 20px;
+      line-height: 1.6;
+    }
+    h1 { color: #2b6cb0; }
+    pre {
+      background: #f6f8fa;
+      padding: 10px;
+      border-radius: 6px;
+      font-size: 14px;
+    }
+    .ok { color: green; }
+    .err { color: red; }
+  </style>
+</head>
+<body>
+  <h1>📦 GripAndReview CDN</h1>
+  <p>
+    Halaman ini menampilkan status file JS gabungan yang terbaru.
+  </p>
+
+  <h2>🔗 Link CDN</h2>
+  <ul>
+    <li><a href="latest.txt">latest.txt</a> (pointer ke file JS terbaru)</li>
+    <li><a id="latestLink" href="#">main.&lt;timestamp&gt;.js</a> (versi terbaru)</li>
+    <li><a href="loader.js">loader.js</a> (auto loader dengan fallback)</li>
+  </ul>
+
+  <h2>ℹ️ Status</h2>
+  <div id="status">⏳ Mengecek versi...</div>
+
+  <script>
+    const base = location.href;
+    fetch("latest.txt", { cache: "no-cache" })
+      .then(res => res.text())
+      .then(file => {
+        const f = file.trim();
+        document.getElementById("status").innerHTML = "✅ Versi terbaru: <b>" + f + "</b>";
+        document.getElementById("latestLink").href = f;
+        document.getElementById("latestLink").textContent = f;
+      })
+      .catch(err => {
+        document.getElementById("status").innerHTML =
+          "<span class='err'>❌ Gagal load latest.txt</span><br>" + err;
+      });
+  </script>
+</body>
+</html>
