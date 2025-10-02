@@ -72,7 +72,7 @@ document.addEventListener("DOMContentLoaded", () => {
 
       if (data.status === "ok") {
         msgBox.style.color = "green";
-        msgBox.textContent = "✅ Ulasan berhasil dikirim! Menunggu moderasi.";
+        msgBox.textContent = "✅ Ulasan berhasil dikirim! Silahkan menunggu moderasi.";
         form.reset();
         stars.forEach(s => s.style.color = "#ccc");
         ratingInput.value = "0";
@@ -88,3 +88,4 @@ document.addEventListener("DOMContentLoaded", () => {
     }
   });
 });
+
