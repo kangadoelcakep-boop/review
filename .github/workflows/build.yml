@@ -1,37 +1,42 @@
-name: Build main.js with cache busting
+name: Build JS
 
 on:
   push:
     branches:
       - main
-    paths:
-      - 'subscribe.js'
-      - 'review.js'
-      - 'build.js'
 
 jobs:
   build:
     runs-on: ubuntu-latest
 
     steps:
-      - name: Checkout repo
+      # Checkout repo
+      - name: Checkout repository
         uses: actions/checkout@v3
 
+      # Setup Node.js
       - name: Setup Node.js
         uses: actions/setup-node@v3
         with:
-          node-version: '18'
+          node-version: 18
 
-      - name: Run build script
-        run: node build.js
-
-      - name: Commit and push main.js
+      # Build file dist/
+      - name: Build JS bundle
         run: |
-          VERSION=$(date +%Y%m%d%H%M%S)
-          mv main.js main.$VERSION.js
-          echo "✅ Build dengan versi: $VERSION"
-          git config user.name "github-actions[bot]"
-          git config user.email "github-actions[bot]@users.noreply.github.com"
-          git add main.*.js
-          git commit -m "chore: auto-build main.js ($VERSION)"
-          git push
+          mkdir -p dist
+          TS=$(date +%s)
+          OUT="main.$TS.js"
+
+          # gabungkan subscribe.js + review.js
+          cat subscribe.js review.js > dist/$OUT
+
+          # simpan nama file terakhir
+          echo $OUT > dist/latest.txt
+
+      # Deploy ke GitHub Pages
+      - name: Deploy to GitHub Pages
+        uses: peaceiris/actions-gh-pages@v3
+        with:
+          github_token: ${{ secrets.GITHUB_TOKEN }}
+          publish_dir: ./dist
+          publish_branch: gh-pages
