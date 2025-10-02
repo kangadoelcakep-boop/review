@@ -1,5 +1,5 @@
-// GripAndReview build 1759378924244
-console.log("✅ GripAndReview build loaded: 1759378924244");
+// GripAndReview build 1759381753754
+console.log("✅ GripAndReview build loaded: 1759381753754");
 
 
 // ---- subscribe.js ----
@@ -159,8 +159,6 @@ if (document.readyState === "loading") {
 
 
 // ---- review.js ----
-const API_URL = "https://script.google.com/macros/s/AKfycbwjJQ69NNajRuYS2_w2mZlK7zY3CHs1pbY2vJvOisRtmMZSwEZJIPcn9u4djtUCe1HqPg/exec";
-
 document.addEventListener("DOMContentLoaded", () => {
   console.log("✅ review.js loaded");
 
@@ -249,5 +247,6 @@ document.addEventListener("DOMContentLoaded", () => {
     }
   });
 });
+
 
 
