@@ -1,16 +1,23 @@
-(function () {
-  const BASE_URL = "https://kangadoelcakep-boop.github.io/review/";
+// loader.js
+(function() {
+  const baseUrl = "https://kangadoelcakep-boop.github.io/review/";
 
-  fetch(BASE_URL + "latest.txt", { cache: "no-cache" })
+  // Ambil versi terbaru dari latest.txt
+  fetch(baseUrl + "latest.txt", { cache: "no-store" })
     .then(res => res.text())
-    .then(fileName => {
+    .then(filename => {
+      const scriptUrl = baseUrl + filename.trim();
+      console.log("🔄 Memuat bundle:", scriptUrl);
+
       const script = document.createElement("script");
-      script.src = BASE_URL + fileName.trim();
+      script.src = scriptUrl;
       script.async = true;
+      script.onload = () => console.log("✅ Bundle loaded:", scriptUrl);
+      script.onerror = () => console.error("❌ Gagal load bundle:", scriptUrl);
+
       document.head.appendChild(script);
-      console.log("✅ Loaded latest JS:", fileName.trim());
     })
     .catch(err => {
-      console.error("❌ Gagal load latest.txt:", err);
+      console.error("❌ Gagal ambil latest.txt", err);
     });
 })();
