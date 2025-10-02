@@ -1,4 +1,4 @@
-name: Build and Deploy JS
+name: Build and Deploy
 
 on:
   push:
@@ -6,29 +6,32 @@ on:
       - main
 
 jobs:
-  build-deploy:
+  build:
     runs-on: ubuntu-latest
-
     steps:
       - name: Checkout repository
         uses: actions/checkout@v3
 
-      - name: Set up Node.js
+      - name: Setup Node.js
         uses: actions/setup-node@v3
         with:
           node-version: 18
 
-      - name: Build JS with timestamp
-        run: |
-          mkdir -p dist
-          ts=$(date +%s)
-          cp src/main.js dist/main.$ts.js
-          echo "main.$ts.js" > dist/latest.txt
+      - name: Install dependencies
+        run: npm install
+
+      - name: Build JS bundle
+        run: node build.js
+
+      - name: Copy loader.js
+        run: cp loader.js dist/loader.js
+
+      - name: Generate latest.txt
+        run: echo "main.$(date +%s).js" > dist/latest.txt
 
       - name: Deploy to GitHub Pages
         uses: peaceiris/actions-gh-pages@v3
         with:
           github_token: ${{ secrets.GITHUB_TOKEN }}
-          publish_dir: ./dist
           publish_branch: gh-pages
-          force_orphan: true
+          publish_dir: ./dist
